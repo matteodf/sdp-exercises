@@ -1,2 +1,2 @@
 # sdp-exercises
-Repository with the solution for the exercises of the Pervasive and Distributed Systems course at UNIMI
+Repository with the solution for the exercises of the Distributed and Pervasive Systems course at UNIMI
