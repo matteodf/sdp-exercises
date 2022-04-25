@@ -5,6 +5,7 @@ public class ServerConsumer implements Runnable {
         this.queue = q;
     }
 
+    // Server consumer that sends in broadcast the messages to all the clients
     public void run(){
         try{
             while (true){

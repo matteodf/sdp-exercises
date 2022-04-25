@@ -22,9 +22,29 @@ class University {
 							new BufferedReader(
 									new InputStreamReader(connectionSocket.getInputStream()));
 
+					/* Initialization of the output stream to the socket */
+					DataOutputStream outToClient =
+							new DataOutputStream(connectionSocket.getOutputStream());
+
+					// Gets a JSON string and return a PersonalData structure, printing it with the proper method.
 					String studentJson = inFromClient.readLine();
 					PersonalData student = gson.fromJson(studentJson, PersonalData.class);
-					System.out.println(student.getPersonalData());
+					System.out.println(student.printPersonalData());
+
+					// Calculates the average grade, prints it on console and returns it to the client
+					double averageGrade = 0.;
+					int counterExam = 0;
+
+					for (Exam ex : student.getExams()){
+						counterExam++;
+						averageGrade += ex.getMark();
+					}
+
+					if (counterExam != 0){
+						System.out.println("Average grade: " + String.format("%.2f", (averageGrade / counterExam)));
+					}
+					outToClient.writeBytes("University received the data. Your average is " + String.format("%.2f", (averageGrade / counterExam)) + "\n");
+
 				} catch (Exception ex){
 					ex.printStackTrace();
 					return;

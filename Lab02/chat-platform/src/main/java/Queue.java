@@ -4,7 +4,7 @@ public class Queue {
     private final ArrayList<String> buffer = new ArrayList<>();
     private final Object lock = new Object();
 
-
+    // Function that adds a new message to the queue buffer
     public void putString(String message){
         synchronized (lock){
             buffer.add(message);
@@ -12,6 +12,7 @@ public class Queue {
         }
     }
 
+    // Function that retrieves new messages from the buffer
     public String getString(){
         synchronized (lock){
             String message;

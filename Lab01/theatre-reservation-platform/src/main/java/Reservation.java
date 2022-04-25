@@ -1,24 +1,9 @@
-import java.io.*;
-import java.net.*;
-
 class Reservation {
-    private Integer totalTickets = 10;
     private Integer reservedSeats = 0;
-    private Object lock = new Object();
-
-    public Integer getReservations(){
-        if (totalTickets == reservedSeats){
-            return 0;
-        } else {
-            return reservedSeats;
-        }
-    }
-
-    public Integer getTotalTickets() {
-        return totalTickets;
-    }
+    private final Object lock = new Object();
 
     public Integer getFreeSeats(){
+        Integer totalTickets = 10;
         return totalTickets - reservedSeats;
     }
 

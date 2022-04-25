@@ -14,8 +14,12 @@ class Exam {
         formattedDate = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).format(d);
     }
 
-    public String getExam(){
+    public String printExam(){
         return "Exam: " + examName + " - Sustained on " + formattedDate + " with a mark of: " + mark;
+    }
+
+    public Integer getMark(){
+        return mark;
     }
 }
 
@@ -32,7 +36,7 @@ class Residence {
         capValue = cap;
     }
 
-    public String getResidence(){
+    public String printResidence(){
         return "Residence: " + streetName + " - " + capValue + " " + cityName + " (" + provinceName + ")";
     }
 }
@@ -54,15 +58,19 @@ class PersonalData{
         idNumber = i;
     }
 
-    public String getPersonalData(){
+    public String printPersonalData(){
         StringBuilder data = new StringBuilder("Name: " + name + "\n");
         data.append("Surname: ").append(surname).append("\n");
         data.append("ID: ").append(idNumber).append("\n");
         data.append("Year of birth: ").append(yearOfBirth).append("\n");
-        data.append(residence.getResidence()).append("\n");
+        data.append(residence.printResidence()).append("\n");
         for (Exam e : exams){
-            data.append(e.getExam()).append("\n");
+            data.append(e.printExam()).append("\n");
         }
         return data.toString();
+    }
+
+    public ArrayList<Exam> getExams(){
+        return exams;
     }
 }

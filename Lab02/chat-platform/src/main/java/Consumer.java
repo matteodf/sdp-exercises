@@ -5,8 +5,7 @@ import java.net.SocketException;
 
 public class Consumer implements Runnable {
     private final Queue queue;
-    private boolean useSocket = false;
-    private Socket clientSocket = null;
+    private Socket socket = null;
     private DataOutputStream outToServer;
 
     public Consumer(Queue q){
@@ -15,28 +14,29 @@ public class Consumer implements Runnable {
 
     public Consumer(Queue q, Socket s){
         this.queue = q;
-        this.useSocket = true;
-        this.clientSocket = s;
+        this.socket = s;
     }
 
     public void run(){
         try{
-            if (useSocket){
+            if (socket != null){
+                //If socket is null the consumer is the one that sends messages to the server
                 outToServer =
-                        new DataOutputStream(clientSocket.getOutputStream());
+                        new DataOutputStream(socket.getOutputStream());
 
                 while (true){
                     try{
                         sendToServer(queue.getString());
                     } catch (SocketException ex){
                         System.err.println("Connection lost! Try to restart the client.");
-                        clientSocket.close();
+                        socket.close();
                         return;
                     } catch (Exception ex){
                         ex.printStackTrace();
                     }
                 }
             } else {
+                //Else the consumer is the one that prints the messages to the console
                 while (true){
                     try{
                         printToConsole(queue.getString());

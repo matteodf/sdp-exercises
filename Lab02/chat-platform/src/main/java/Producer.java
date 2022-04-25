@@ -5,7 +5,6 @@ import java.net.Socket;
 
 public class Producer implements Runnable {
     private final Queue queue;
-    private boolean useSocket = false;
     private Socket clientSocket = null;
     private BufferedReader inFromServer;
 
@@ -19,22 +18,20 @@ public class Producer implements Runnable {
 
     public Producer(Queue q, Socket s){
         this.queue = q;
-        this.useSocket = true;
         this.clientSocket = s;
     }
 
     public void run(){
         try{
-            if (useSocket){
+            if (clientSocket != null){
+                //If socket is null the consumer is the one that reads messages from the server and adds them to the queue
                 inFromServer =
                         new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 while (true){
                     try{
                         String s = readFromServer();
-                        if (s != null){
-                            queue.putString(s);
-                        }
+                        queue.putString(s);
                     } catch (IOException ex){
                         System.err.println("CONNECTION LOST! Try to restart the client.");
                         return;
@@ -44,9 +41,15 @@ public class Producer implements Runnable {
                     }
                 }
             } else {
+                //Else it is the consumer that reads messages from the client console and adds them to the local queue
                 while (true){
                     try{
-                        queue.putString(readFromConsole());
+                        String message = readFromConsole();
+                        if (message.equals("null") || message.equals("disconnected") || message.equals("connected") || message.isEmpty()){
+                            System.err.println("ERROR! Invalid message, try again");
+                            continue;
+                        }
+                        queue.putString(message);
                     } catch (Exception ex){
                         ex.printStackTrace();
                         return;

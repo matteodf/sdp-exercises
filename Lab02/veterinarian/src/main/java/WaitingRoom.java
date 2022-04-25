@@ -1,15 +1,13 @@
 class WaitingRoom {
     // Parameters definition
-    private Integer maxDogNumber = 4;
-    private Integer maxCatNumber = 1;
+    private final Integer maxDogNumber;
     private Integer currentDogNumber;
     private Integer currentCatNumber;
-    private Object lock = new Object();
+    private final Object lock = new Object();
 
     // This allows overriding the constraints when constructing the waiting room
-    WaitingRoom(Integer maxDog, Integer maxCat){
+    WaitingRoom(Integer maxDog){
         maxDogNumber = maxDog;
-        maxCatNumber = maxCat;
         currentDogNumber = 0;
         currentCatNumber = 0;
     }

@@ -1,11 +1,15 @@
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.SocketException;
 
 public class ServerThread extends Thread {
-	private Socket connectionSocket = null;
+	private final Socket connectionSocket;
 	private BufferedReader inFromClient;
 	private DataOutputStream outToClient;
-	private Reservation reservation;
+	private final Reservation reservation;
 
 	// the constructor argument is an established socket
 	public ServerThread(Socket s, Reservation res) {
@@ -23,11 +27,11 @@ public class ServerThread extends Thread {
 	}
 
 	public void run() {
-		Integer desiredTickets;
+		int desiredTickets;
 		Integer freeSeats;
 		Integer result;
 		String clientAddress = connectionSocket.getInetAddress().getHostAddress();
-		Integer clientPort = connectionSocket.getPort();
+		int clientPort = connectionSocket.getPort();
 		try {
 			freeSeats = reservation.getFreeSeats();
 			if (freeSeats == 0){

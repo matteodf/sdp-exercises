@@ -1,13 +1,15 @@
 package multithread;
 
-import java.io.*;
-import java.net.*; 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.BindException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 class MultiServer {
 
-	public static void main(String argv[]) throws Exception 
-	{ 
-		Integer portNumber;
+	public static void main(String[] argv) {
+		int portNumber;
 
 		/* Initialization of the keyboard input */
 		BufferedReader inFromUser =
@@ -20,37 +22,36 @@ class MultiServer {
 			try{
 				/* Create a "listening socket" on the specified port */
 				ServerSocket welcomeSocket = new ServerSocket(portNumber);
-				System.out.println("Connection initialized on port " + Integer.toString(portNumber));
+				System.out.println("Connection initialized on port " + portNumber);
 				while(true) {
-					Socket connectionSocket = welcomeSocket.accept();
-					String clientAddress = connectionSocket.getInetAddress().getHostAddress();
-					Integer clientPort = connectionSocket.getPort();
-					System.out.println("CONNECTION! Client connected from address " + clientAddress + ", port " + clientPort);
+					try{
+						Socket connectionSocket = welcomeSocket.accept();
+						String clientAddress = connectionSocket.getInetAddress().getHostAddress();
+						int clientPort = connectionSocket.getPort();
+						System.out.println("CONNECTION! Client connected from address " + clientAddress + ", port " + clientPort);
 
-					// thread creation passing the established socket as arg
-					ServerThread theThread =
-							new ServerThread(connectionSocket);
+						// thread creation passing the established socket as arg
+						ServerThread theThread =
+								new ServerThread(connectionSocket);
 
-					// start of the thread
-					theThread.start();
-
+						// start of the thread
+						theThread.start();
+					} catch (Exception ex){
+						ex.printStackTrace();
+						return;
+					}
 				}
 			} catch (BindException ex){
 				System.err.println("Address not valid or already in use. Try again!\n");
-				return;
 			} catch (IllegalArgumentException ex) {
 				System.err.println("Port value out of range. Try again!\n");
-				return;
 			} catch (Exception ex){
-				System.err.println(ex.toString());
-				return;
+				ex.printStackTrace();
 			}
 		} catch (NumberFormatException ex){
 			System.err.println("Port number is not valid. Try again!\n");
-			return;
 		} catch (Exception ex){
-			System.err.println(ex.toString());
-			return;
+			ex.printStackTrace();
 		}
 	}
 }

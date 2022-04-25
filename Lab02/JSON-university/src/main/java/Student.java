@@ -28,10 +28,18 @@ class Student {
 			DataOutputStream outToServer =
 					new DataOutputStream(clientSocket.getOutputStream());
 
+			/* Initialization of the input stream from the socket */
+			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+			/* JSON format the PersonalData structure related to the student */
 			Gson gson = new Gson();
 			String studentJson = gson.toJson(student);
 
+			// Sends the JSON string to server
 			outToServer.writeBytes(studentJson + '\n');
+
+			// Reads the answer from server
+			System.out.println(inFromServer.readLine());
 
 		} catch (Exception ex) {
 			System.err.println("Connection refused!\n");

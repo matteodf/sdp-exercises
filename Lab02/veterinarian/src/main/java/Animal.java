@@ -1,12 +1,12 @@
 import java.util.Random;
 
 // Enumeration type to describe animals species
-enum AnimalSpecies {DOG, CAT};
+enum AnimalSpecies {DOG, CAT}
 
 public class Animal extends Thread {
-	private AnimalSpecies animalSpecies;
-	private Integer id;
-	private WaitingRoom waitRoom;
+	private final AnimalSpecies animalSpecies;
+	private final Integer id;
+	private final WaitingRoom waitRoom;
 
 	public Animal(boolean species, Integer i, WaitingRoom w) {
 		// Chooses the species based on a random boolean
@@ -40,7 +40,7 @@ public class Animal extends Thread {
 	// Function that randomly assigns the time in which the animal stays in the waiting room
 	private void wasteSomeTime(){
 		Random rnd = new Random();
-		Integer seconds = rnd.nextInt(10) + 1;
+		int seconds = rnd.nextInt(10) + 1;
 		try {
 			Thread.sleep(seconds*1000);
 		} catch (Exception ex){

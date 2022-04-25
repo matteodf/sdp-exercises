@@ -6,6 +6,7 @@ public class Message {
     private final String formattedDate;
     private final SocketInfo user;
 
+    // When a new message is created, the date is automatically set to the current time
     Message(SocketInfo u, String m){
         user = u;
         message = m;
@@ -14,15 +15,22 @@ public class Message {
         formattedDate = date.format(format);
     }
 
+    // Getter function to retrieve the user
     public SocketInfo getSender(){
         return user;
     }
 
-    public String getMessage(){
-        return "---------- NEW MESSAGE ----------\nOn " + formattedDate + ", " + user.getNickname() + " wrote: \n" + message + "\n---------------------------------";
+    // Function to get the formatted message
+    public String getFormattedMessage(){
+        String formattedMessage = "---------- NEW MESSAGE ----------\n";
+        formattedMessage += "On " + formattedDate + ", "+ user.getNickname() + " wrote:\n";
+        formattedMessage += message + "\n";
+        formattedMessage +=  "---------------------------------";
+        return formattedMessage;
     }
 
-    public String getStringMessage(){
+    // Function to get only the message string
+    public String getMessage(){
         return message;
     }
 }

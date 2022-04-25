@@ -1,10 +1,14 @@
 package multithread;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.SocketException;
 
 public class ServerThread extends Thread {
-	private Socket connectionSocket = null;
+	private final Socket connectionSocket;
 	private BufferedReader inFromClient;
 	private DataOutputStream outToClient;
 
@@ -24,10 +28,10 @@ public class ServerThread extends Thread {
 
 	public void run() {
 		String sum;
-		Integer clientFirstNumber;
-		Integer clientSecondNumber;
+		int clientFirstNumber;
+		int clientSecondNumber;
 		String clientAddress = connectionSocket.getInetAddress().getHostAddress();
-		Integer clientPort = connectionSocket.getPort();
+		int clientPort = connectionSocket.getPort();
 		try{
 			/* Read line from client */
 			clientFirstNumber = Integer.parseInt(inFromClient.readLine());
@@ -39,7 +43,7 @@ public class ServerThread extends Thread {
 				System.out.println("SUCCESS! Client from address " + clientAddress +  ", port " + clientPort + ": result send successfully!");
 				connectionSocket.close();
 			} catch (Exception ex){
-				System.err.println(ex.toString());
+				ex.printStackTrace();
 			}
 		}
 		catch (NumberFormatException ex){
@@ -47,7 +51,7 @@ public class ServerThread extends Thread {
 		} catch (SocketException ex){
 			System.err.println("ERROR! Client from address " + clientAddress +  ", port " + clientPort + ": the connection was reset or lost");
 		}  catch (Exception ex){
-			System.err.println(ex.toString());
+			ex.printStackTrace();
 		}
 	}
 }

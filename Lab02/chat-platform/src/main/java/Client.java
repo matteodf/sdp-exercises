@@ -16,6 +16,7 @@ class Client {
 
 		try {
 			Socket clientSocket = new Socket("localhost", 6789);
+			
 			/* Initialization of the producer that reads messages from keyboard and adds them to queue */
 			Producer outputProducer = new Producer(outputQueue);
 			/* Initialization of the producer that reads messages from socket and adds them to queue */

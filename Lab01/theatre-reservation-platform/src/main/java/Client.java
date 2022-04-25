@@ -1,12 +1,15 @@
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.SocketException;
 
 class Client {
 
-	public static void main(String argv[]) throws Exception { 
-		Integer freeSeats;
-		Integer ticketsNumber = 0;
-		Integer result;
+	public static void main(String[] argv) {
+		int freeSeats;
+		int ticketsNumber;
+		int result;
 
 		/* Initialization of keyboard input */
 		BufferedReader inFromUser =
@@ -65,30 +68,26 @@ class Client {
 								System.out.println("Tickets purchased!");
 							}
 						} catch (NumberFormatException ex){
-							System.err.println("");
+							System.err.println();
 						}
 
 						clientSocket.close();
 					}
 					catch (SocketException ex){
 						System.err.println("The connection was reset or lost");
-						return;
 					}
 				}
 			} catch (NumberFormatException ex) {
 				System.err.println("Invalid response from server!");
 				clientSocket.close();
-				return;
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				clientSocket.close();
-				return;
 			}
 
 
 		} catch (Exception ex) {
 			System.err.println("Connection refused!\n");
-			return;
 		}
 	}
 }

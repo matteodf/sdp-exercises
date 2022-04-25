@@ -9,35 +9,41 @@ class MultiServer {
 
     public static void main(String[] argv) {
         ServerQueue serverQueue = new ServerQueue();
-        Integer connectionId = 0;
 
         try{
             /* Create a "listening socket" on the specified port */
             ServerSocket welcomeSocket = new ServerSocket(6789);
             System.out.println("Connection initialized on port 6789");
+
             while(true) {
                 try{
                     Socket connectionSocket = welcomeSocket.accept();
 
                     /* Initialization of the input stream from the socket */
-                    BufferedReader inFromServer =
+                    BufferedReader inFromClient =
                             new BufferedReader(new
                                     InputStreamReader(connectionSocket.getInputStream()));
 
-                    String nickname = inFromServer.readLine();
+                    /* Gets the client nickname and initializes a new connection with the SocketInfo structure*/
+                    String nickname = inFromClient.readLine();
                     SocketInfo connection = new SocketInfo(connectionSocket, nickname);
                     serverQueue.addConnection(connection);
+
                     String clientAddress = connectionSocket.getInetAddress().getHostAddress();
                     int clientPort = connectionSocket.getPort();
                     System.out.println("CONNECTION! Client connected from address " + clientAddress + ", port " + clientPort);
 
-                    // thread creation passing the established socket as arg
+                    // thread creation passing the established socket and the server queue as arg
                     ServerThread theThread =
                             new ServerThread(connection, serverQueue);
 
                     // start of the thread
                     theThread.start();
-                    connectionId++;
+
+                    Message m = new Message(connection, "connected");
+                    serverQueue.putMessage(m);
+
+
                 } catch (Exception ex){
                     ex.printStackTrace();
                     return;

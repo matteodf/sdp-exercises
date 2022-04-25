@@ -1,16 +1,19 @@
 package iterative;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.SocketException;
 
 class Client {
 
-	public static void main(String argv[]) throws Exception { 
+	public static void main(String[] argv) throws Exception {
 		String result;
-		Integer firstNumber = 0;
-		Integer secondNumber = 0;
+		int firstNumber;
+		int secondNumber;
 		String serverAddress;
-		Integer portNumber;
+		int portNumber;
 
 		/* Initialization of keyboard input */
 		BufferedReader inFromUser =
@@ -44,17 +47,16 @@ class Client {
 					clientSocket.close();
 					return;
 				} catch (Exception ex) {
-					System.err.println(ex.toString());
+					ex.printStackTrace();
 					clientSocket.close();
 					return;
 				}
 				System.out.print("Enter the second number: ");
 				try {
 					secondNumber = Integer.parseInt(inFromUser.readLine());
-					Thread.sleep(10000);
 					try{
 						/* Send numbers to server */
-						outToServer.writeBytes(Integer.toString(firstNumber) + '\n' + Integer.toString(secondNumber) + '\n');
+						outToServer.writeBytes(Integer.toString(firstNumber) + '\n' + secondNumber + '\n');
 						/* Read answer from server */
 						result = inFromServer.readLine();
 
@@ -64,28 +66,22 @@ class Client {
 					}
 					catch (SocketException ex){
 						System.err.println("The connection was reset or lost");
-						return;
 					}
 				} catch (NumberFormatException ex) {
 					System.err.println("Invalid number!");
 					clientSocket.close();
-					return;
 				} catch (Exception ex) {
-					System.err.println(ex.toString());
+					ex.printStackTrace();
 					clientSocket.close();
-					return;
 				}
 
 			} catch (Exception ex) {
 				System.err.println("Connection refused! Check address and port and retry\n");
-				return;
 			}
 		} catch (NumberFormatException ex){
 			System.err.println("Port number not valid.\n");
-			return;
 		} catch (Exception ex){
-			System.err.println(ex.toString());
-			return;
+			ex.printStackTrace();
 		}
 	}
 }
