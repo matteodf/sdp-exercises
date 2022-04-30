@@ -1,0 +1,23 @@
+student/StudentOuterClass.java
+ student.StudentOuterClass
+ student.StudentOuterClass$1
+ student.StudentOuterClass$Student
+ student.StudentOuterClass$Student$1
+ student.StudentOuterClass$Student$Builder
+ student.StudentOuterClass$Student$Exam
+ student.StudentOuterClass$Student$Exam$1
+ student.StudentOuterClass$Student$Exam$Builder
+ student.StudentOuterClass$Student$ExamOrBuilder
+ student.StudentOuterClass$Student$Residence
+ student.StudentOuterClass$Student$Residence$1
+ student.StudentOuterClass$Student$Residence$Builder
+ student.StudentOuterClass$Student$ResidenceOrBuilder
+ student.StudentOuterClass$StudentOrBuilder
+Server.java
+ Server
+student/JSONStudent.java
+ student.JSONExam
+ student.JSONResidence
+ student.JSONStudent
+student/Client.java
+ student.Client

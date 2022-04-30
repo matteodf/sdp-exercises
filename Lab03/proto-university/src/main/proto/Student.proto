@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package student;
+
+message Student {
+    required string name = 1;
+    required string surname = 2;
+    required int32 yearOfBirth = 3;
+    required int32 idNumber = 4;
+
+    message Residence{
+        required string streetName = 1;
+        required string cityName = 2;
+        required string provinceName = 3;
+        required int32 capValue = 4;
+    }
+
+    required Residence residence = 5;
+
+    message Exam{
+        required string examName = 1;
+        required int32 mark = 2;
+        required string examDate = 3;
+    }
+
+    repeated Exam exam = 6;
+}

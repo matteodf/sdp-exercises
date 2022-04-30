@@ -38,6 +38,8 @@ class Student {
 			// Sends the JSON string to server
 			outToServer.writeBytes(studentJson + '\n');
 
+			System.out.println("Sent " + studentJson.getBytes().length + " bytes");
+
 			// Reads the answer from server
 			System.out.println(inFromServer.readLine());
 
