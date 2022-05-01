@@ -1,6 +1,14 @@
-sum/SumImpl.java
- sum.SumImpl
- sum.SumImpl$1
+sum/SumOuterClass.java
+ sum.SumOuterClass
+ sum.SumOuterClass$1
+ sum.SumOuterClass$Result
+ sum.SumOuterClass$Result$1
+ sum.SumOuterClass$Result$Builder
+ sum.SumOuterClass$ResultOrBuilder
+ sum.SumOuterClass$SumMessage
+ sum.SumOuterClass$SumMessage$1
+ sum.SumOuterClass$SumMessage$Builder
+ sum.SumOuterClass$SumMessageOrBuilder
 sum/SumGrpc.java
  sum.SumGrpc
  sum.SumGrpc$1
@@ -14,19 +22,11 @@ sum/SumGrpc.java
  sum.SumGrpc$SumImplBase
  sum.SumGrpc$SumMethodDescriptorSupplier
  sum.SumGrpc$SumStub
-sum/SumOuterClass.java
- sum.SumOuterClass
- sum.SumOuterClass$1
- sum.SumOuterClass$Result
- sum.SumOuterClass$Result$1
- sum.SumOuterClass$Result$Builder
- sum.SumOuterClass$ResultOrBuilder
- sum.SumOuterClass$SumMessage
- sum.SumOuterClass$SumMessage$1
- sum.SumOuterClass$SumMessage$Builder
- sum.SumOuterClass$SumMessageOrBuilder
 App.java
  App
+sum/SumImpl.java
+ sum.SumImpl
+ sum.SumImpl$1
 sum/SumClient.java
  sum.SumClient
  sum.SumClient$1

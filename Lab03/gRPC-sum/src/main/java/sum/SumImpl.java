@@ -2,9 +2,11 @@ package sum;
 
 import io.grpc.stub.StreamObserver;
 import sum.SumGrpc.SumImplBase;
-import sum.SumOuterClass.*;
+import sum.SumOuterClass.Result;
+import sum.SumOuterClass.SumMessage;
 
 public class SumImpl extends SumImplBase {
+
     @Override
     public void simpleSum(SumOuterClass.SumMessage request, StreamObserver<Result> responseObserver){
         System.out.println(request);
@@ -12,6 +14,7 @@ public class SumImpl extends SumImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
     @Override
     public void repeatedSum(SumOuterClass.SumMessage request, StreamObserver<Result> responseObserver){
         System.out.println(request);
@@ -23,9 +26,11 @@ public class SumImpl extends SumImplBase {
         }
         responseObserver.onCompleted();
     }
+
     @Override
     public StreamObserver<SumOuterClass.SumMessage> streamSum(StreamObserver<Result> responseObserver){
         return new StreamObserver<SumMessage>() {
+
             @Override
             public void onNext(SumMessage value) {
                 int sum = value.getFirstNumber() + value.getSecondNumber();
@@ -33,14 +38,10 @@ public class SumImpl extends SumImplBase {
             }
 
             @Override
-            public void onError(Throwable t) {
-
-            }
+            public void onError(Throwable t) { }
 
             @Override
-            public void onCompleted() {
-
-            }
+            public void onCompleted() { }
         };
     }
 }

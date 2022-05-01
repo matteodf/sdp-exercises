@@ -1,20 +1,18 @@
 package sum;
 
-import sum.SumGrpc;
-import sum.SumGrpc.*;
-import sum.SumOuterClass.*;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
+import sum.SumGrpc.SumBlockingStub;
+import sum.SumGrpc.SumStub;
+import sum.SumOuterClass.Result;
+import sum.SumOuterClass.SumMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.stub.StreamObserver;
 
 class SumClient {
 
@@ -25,9 +23,7 @@ class SumClient {
 		System.out.println("Simple Sum service\nEnter two numbers (press enter to send each number)");
 
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-
 		int firstNumber, secondNumber;
-
 		try {
 			firstNumber = Integer.parseInt(inFromUser.readLine());
 			secondNumber = Integer.parseInt(inFromUser.readLine());
@@ -51,16 +47,16 @@ class SumClient {
 	//calling a synchronous rpc operation
 	public static void simpleSum(int firstNumber, int secondNumber){
 
-		//plaintext channel on the address (ip/port) which offers the GreetingService service
+		//plaintext channel on the address (ip/port) which offers the Sum service
 		final ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:6789").usePlaintext().build();
 
 		//creating a blocking stub on the channel
 		SumBlockingStub stub = SumGrpc.newBlockingStub(channel);
 
-		//creating the HelloResponse object which will be provided as input to the RPC method
+		//creating the SumMessage object which will be provided as input to the RPC method
 		SumMessage request = SumMessage.newBuilder().setFirstNumber(firstNumber).setSecondNumber(secondNumber).build();
 
-		//calling the method. it returns an instance of HelloResponse
+		//calling the method. it returns an instance of Result
 		Result response = stub.simpleSum(request);
 
 		//printing the answer
@@ -73,20 +69,20 @@ class SumClient {
 	//calling an asynchronous method based on stream
 	public static void repeatedSum(int firstNumber, int secondNumber) throws InterruptedException {
 
-		//plaintext channel on the address (ip/port) which offers the GreetingService service
+		//plaintext channel on the address (ip/port) which offers the Sum service
 		final ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:6789").usePlaintext().build();
 
 		//creating an asynchronous stub on the channel
 		SumStub stub = SumGrpc.newStub(channel);
 
-		//creating the HelloResponse object which will be provided as input to the RPC method
+		//creating the SumMessage object which will be provided as input to the RPC method
 		SumMessage request = SumMessage.newBuilder().setFirstNumber(firstNumber).setSecondNumber(secondNumber).build();
 
 		//calling the RPC method. since it is asynchronous, we need to define handlers
 		stub.repeatedSum(request, new StreamObserver<Result>() {
-			//this hanlder takes care of each item received in the stream
+			//this handler takes care of each item received in the stream
 			public void onNext(Result response) {
-				//each item is just printed
+				//each item is printed
 				System.out.println("Current sum value: " + response.getNumber());
 			}
 
@@ -108,20 +104,17 @@ class SumClient {
 	//calling an asynchronous method based on stream
 	public static void streamSum(int firstNumber, int secondNumber) throws InterruptedException {
 
-		//plaintext channel on the address (ip/port) which offers the GreetingService service
+		//plaintext channel on the address (ip/port) which offers the Sum service
 		final ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:6789").usePlaintext().build();
 
 		//creating an asynchronous stub on the channel
 		SumStub stub = SumGrpc.newStub(channel);
 
-		//creating the HelloResponse object which will be provided as input to the RPC method
-		SumMessage request = SumMessage.newBuilder().setFirstNumber(firstNumber).setSecondNumber(secondNumber).build();
-
 		//calling the RPC method. since it is asynchronous, we need to define handlers
 		StreamObserver<SumMessage> stream = stub.streamSum(new StreamObserver<Result>() {
-			//this hanlder takes care of each item received in the stream
+			//this handler takes care of each item received in the stream
 			public void onNext(Result response) {
-				//each item is just printed
+				//each item is printed
 				System.out.println("Current sum value: " + response.getNumber());
 			}
 
@@ -136,6 +129,7 @@ class SumClient {
 			}
 		});
 
+		//Initialization of the stream
 		for(int i = 0; i < secondNumber; i++){
 			stream.onNext(SumMessage.newBuilder().setFirstNumber((int) (firstNumber*Math.pow(2,i))).setSecondNumber(secondNumber).build());
 		}
