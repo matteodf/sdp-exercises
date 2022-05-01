@@ -15,8 +15,10 @@ public class SumImpl extends SumImplBase {
     @Override
     public void repeatedSum(SumOuterClass.SumMessage request, StreamObserver<Result> responseObserver){
         System.out.println(request);
+        int sum = 0;
         for (int i = 0; i < request.getSecondNumber(); i++){
-            Result response = Result.newBuilder().setNumber(request.getFirstNumber() * (request.getSecondNumber()+1)).build();
+            sum += request.getFirstNumber();
+            Result response = Result.newBuilder().setNumber(sum).build();
             responseObserver.onNext(response);
         }
         responseObserver.onCompleted();
