@@ -2,7 +2,6 @@ package MQTT;
 
 import org.eclipse.paho.client.mqttv3.*;
 
-import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class Heater {
@@ -28,7 +27,6 @@ public class Heater {
 
                 public void messageArrived(String topic, MqttMessage message) {
                     // Called when a message arrives from the server that matches any subscription made by the client
-                    String time = new Timestamp(System.currentTimeMillis()).toString();
                     String receivedMessage = new String(message.getPayload());
                     if (receivedMessage.equals("off")){
                         System.out.println("\t STATUS: Heater is turning off.");
@@ -41,7 +39,7 @@ public class Heater {
                 }
 
                 public void connectionLost(Throwable cause) {
-                    System.out.println(clientId + " Connectionlost! cause:" + cause.getMessage()+ "-  Thread PID: " + Thread.currentThread().getId());
+                    System.out.println(clientId + " Connection lost! cause:" + cause.getMessage()+ "-  Thread PID: " + Thread.currentThread().getId());
                 }
 
                 public void deliveryComplete(IMqttDeliveryToken token) {
@@ -64,7 +62,7 @@ public class Heater {
             System.out.println("msg " + me.getMessage());
             System.out.println("loc " + me.getLocalizedMessage());
             System.out.println("cause " + me.getCause());
-            System.out.println("excep " + me);
+            System.out.println("exception " + me);
             me.printStackTrace();
         }
 

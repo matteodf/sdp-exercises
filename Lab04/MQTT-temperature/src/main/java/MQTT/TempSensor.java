@@ -47,7 +47,7 @@ public class TempSensor {
                                 System.out.println("msg " + me.getMessage());
                                 System.out.println("loc " + me.getLocalizedMessage());
                                 System.out.println("cause " + me.getCause());
-                                System.out.println("excep " + me);
+                                System.out.println("exception " + me);
                                 me.printStackTrace();
                             }
                         }
@@ -58,7 +58,7 @@ public class TempSensor {
             System.out.println("msg " + me.getMessage());
             System.out.println("loc " + me.getLocalizedMessage());
             System.out.println("cause " + me.getCause());
-            System.out.println("excep " + me);
+            System.out.println("exception " + me);
             me.printStackTrace();
         }
     }

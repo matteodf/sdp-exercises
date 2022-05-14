@@ -3,7 +3,6 @@ package MQTT;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -44,7 +43,7 @@ public class Subscriber {
                         tempSum += Double.parseDouble(receivedMessage);
                         tempCounter++;
                     } else {
-                        Double tempAvg = tempSum/tempCounter;
+                        double tempAvg = tempSum/tempCounter;
                         String signal = "on";
                         if (tempAvg > 20){
                             signal = "off";
@@ -64,7 +63,7 @@ public class Subscriber {
                             System.out.println("msg " + me.getMessage());
                             System.out.println("loc " + me.getLocalizedMessage());
                             System.out.println("cause " + me.getCause());
-                            System.out.println("excep " + me);
+                            System.out.println("exception " + me);
                             me.printStackTrace();
                         }
                         System.out.println(clientId + " Message published - Thread PID: " + Thread.currentThread().getId());
@@ -106,7 +105,7 @@ public class Subscriber {
             System.out.println("msg " + me.getMessage());
             System.out.println("loc " + me.getLocalizedMessage());
             System.out.println("cause " + me.getCause());
-            System.out.println("excep " + me);
+            System.out.println("exception " + me);
             me.printStackTrace();
         }
 
